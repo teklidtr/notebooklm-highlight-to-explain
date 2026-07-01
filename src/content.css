@@ -122,7 +122,6 @@
 
 #nlmhh-root .nlmhh-shortcut-hint {
   padding: 2px 6px;
-  margin-left: auto;
   color: var(--nlmhh-snippet-color);
   font-size: 11px;
   font-weight: 650;
@@ -130,6 +129,32 @@
   background: var(--nlmhh-action-bg);
   border: 1px solid var(--nlmhh-action-border);
   border-radius: 4px;
+}
+
+#nlmhh-root .nlmhh-settings-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  margin-left: auto;
+  margin-right: 4px;
+  color: var(--nlmhh-snippet-color);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#nlmhh-root .nlmhh-settings-btn:hover {
+  color: var(--nlmhh-title-color);
+  background: var(--nlmhh-close-hover);
+}
+
+#nlmhh-root .nlmhh-settings-btn svg {
+  display: block;
 }
 
 #nlmhh-root .nlmhh-close {
