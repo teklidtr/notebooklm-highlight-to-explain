@@ -15,9 +15,6 @@
     "activeTab",
     "clipboardWrite"
   ],
-  "host_permissions": [
-    "https://notebooklm.google.com/*"
-  ],
   "background": {
     "service_worker": "src/background.js"
   },
