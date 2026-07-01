@@ -120,6 +120,18 @@
   white-space: nowrap;
 }
 
+#nlmhh-root .nlmhh-shortcut-hint {
+  padding: 2px 6px;
+  margin-left: auto;
+  color: var(--nlmhh-snippet-color);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 14px;
+  background: var(--nlmhh-action-bg);
+  border: 1px solid var(--nlmhh-action-border);
+  border-radius: 4px;
+}
+
 #nlmhh-root .nlmhh-close {
   display: inline-grid;
   flex: 0 0 28px;

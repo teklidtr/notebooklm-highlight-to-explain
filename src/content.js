@@ -245,7 +245,12 @@
     closeButton.textContent = "x";
     closeButton.addEventListener("click", closePopup);
 
-    header.append(title, closeButton);
+    const shortcutHint = document.createElement("span");
+    shortcutHint.className = "nlmhh-shortcut-hint";
+    const isMac = /Mac|iPod|iPhone|iPad/i.test(navigator.userAgent || navigator.platform);
+    shortcutHint.textContent = isMac ? "⌘E" : "Ctrl+E";
+
+    header.append(title, shortcutHint, closeButton);
 
     const snippet = document.createElement("div");
     snippet.className = "nlmhh-snippet";
