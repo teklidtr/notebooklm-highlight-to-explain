@@ -17,33 +17,42 @@
     explain: {
       key: "1",
       label: "Explain",
-      defaultInstruction(sourceTitle) {
-        const opening = sourceTitle
-          ? "Explain this highlighted passage from my NotebookLM source in clear, simple terms."
-          : "Explain this selected NotebookLM text in clear, simple terms.";
-        return [
-          opening,
-          "Mention the key idea, any important terms, and why it matters."
-        ].join("\n");
-      }
+      defaultTemplate: [
+        "Explain this highlighted passage in clear, simple terms.",
+        "Mention the key idea, any important terms, and why it matters.",
+        "",
+        "Selection: {source}",
+        "Selected passage:",
+        "\"\"\"",
+        "{selection}",
+        "\"\"\""
+      ].join("\n")
     },
     example: {
       key: "2",
       label: "Example",
-      defaultInstruction(sourceTitle) {
-        return sourceTitle
-          ? "Give a concrete example or analogy that makes this highlighted passage easier to understand."
-          : "Give a concrete example or analogy that makes this selected NotebookLM text easier to understand.";
-      }
+      defaultTemplate: [
+        "Give a concrete example or analogy that makes this highlighted passage easier to understand.",
+        "",
+        "Selection: {source}",
+        "Selected passage:",
+        "\"\"\"",
+        "{selection}",
+        "\"\"\""
+      ].join("\n")
     },
     summarize: {
       key: "3",
       label: "Summarize",
-      defaultInstruction(sourceTitle) {
-        return sourceTitle
-          ? "Summarize this highlighted passage from my NotebookLM source in 2-4 concise bullet points."
-          : "Summarize this selected NotebookLM text in 2-4 concise bullet points.";
-      }
+      defaultTemplate: [
+        "Summarize this highlighted passage in 2-4 concise bullet points.",
+        "",
+        "Selection: {source}",
+        "Selected passage:",
+        "\"\"\"",
+        "{selection}",
+        "\"\"\""
+      ].join("\n")
     }
   };
 
@@ -325,12 +334,16 @@
       chrome.storage.sync.get([storageKey], resolve);
     });
 
-    const instruction = stored[storageKey] || config.defaultInstruction(selectedSourceTitle);
-    const selectionBlock = buildSelectionBlock(selectedText, selectedSourceTitle, selectedContextLabel);
+    const template = stored[storageKey] !== undefined && stored[storageKey] !== ""
+      ? stored[storageKey]
+      : config.defaultTemplate;
 
-    const prompt = instruction.includes("{selection}")
-      ? instruction.replace(/{selection}/g, selectionBlock)
-      : [instruction, "", selectionBlock].join("\n");
+    const sourceVal = selectedSourceTitle || selectedContextLabel || "NotebookLM page";
+    const selectionTextVal = selectedText || "";
+
+    const prompt = template
+      .replace(/{source}/g, sourceVal)
+      .replace(/{selection}/g, selectionTextVal);
 
     const chatInput = findChatInput();
 
@@ -455,19 +468,7 @@
       .toLowerCase();
   }
 
-  function buildSelectionBlock(text, sourceTitle, contextLabel) {
-    const lines = [];
 
-    if (sourceTitle) {
-      lines.push(`Source: ${sourceTitle}`, "");
-    } else if (contextLabel) {
-      lines.push(`Selection: ${contextLabel}`, "");
-    }
-
-    lines.push("Selected passage:", "\"\"\"", text, "\"\"\"");
-
-    return lines.join("\n");
-  }
 
   function findSourceTitle(range, selectedText) {
     const anchor = elementFromNode(range.startContainer);

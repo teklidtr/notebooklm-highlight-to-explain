@@ -7,6 +7,37 @@
     "custom-summarize": "custom_summarize"
   };
 
+  const DEFAULTS = {
+    "custom-explain": [
+      "Explain this highlighted passage in clear, simple terms.",
+      "Mention the key idea, any important terms, and why it matters.",
+      "",
+      "Selection: {source}",
+      "Selected passage:",
+      "\"\"\"",
+      "{selection}",
+      "\"\"\""
+    ].join("\n"),
+    "custom-example": [
+      "Give a concrete example or analogy that makes this highlighted passage easier to understand.",
+      "",
+      "Selection: {source}",
+      "Selected passage:",
+      "\"\"\"",
+      "{selection}",
+      "\"\"\""
+    ].join("\n"),
+    "custom-summarize": [
+      "Summarize this highlighted passage in 2-4 concise bullet points.",
+      "",
+      "Selection: {source}",
+      "Selected passage:",
+      "\"\"\"",
+      "{selection}",
+      "\"\"\""
+    ].join("\n")
+  };
+
   const textareas = {};
   let saveStatusTimeout = null;
 
@@ -21,7 +52,7 @@
         if (!el) return;
 
         textareas[id] = el;
-        el.value = items[key] || "";
+        el.value = items[key] !== undefined ? items[key] : DEFAULTS[id];
 
         // Attach input listener for auto-save
         el.addEventListener("input", () => {
@@ -36,8 +67,8 @@
         const targetId = button.getAttribute("data-target");
         const textarea = textareas[targetId];
         if (textarea) {
-          textarea.value = "";
-          saveValue(targetId, "");
+          textarea.value = DEFAULTS[targetId];
+          saveValue(targetId, DEFAULTS[targetId]);
         }
       });
     });

@@ -214,13 +214,18 @@
         <li>Includes the source title when the highlight comes from a NotebookLM source.</li>
       </ul>
       <h2>Customize Prompts</h2>
-      <p>Configure the default instruction template that precedes the highlighted selection block. You can use the placeholder <code>{selection}</code> to choose exactly where the highlighted passage is inserted inside your prompt (otherwise, it is appended to the bottom by default).</p>
+      <p>Configure the default prompt templates. You can use the placeholders <code>{source}</code> (for the source document title or page context) and <code>{selection}</code> (for the highlighted passage text) to customize the exact prompt layout and structure.</p>
       
       <div class="settings-group">
         <label for="custom-explain">Explain Prompt Template</label>
-        <textarea id="custom-explain" rows="6" placeholder="Explain this highlighted passage in clear, simple terms. Mention the key idea, any important terms, and why it matters.
+        <textarea id="custom-explain" rows="8">Explain this highlighted passage in clear, simple terms.
+Mention the key idea, any important terms, and why it matters.
 
-{selection}"></textarea>
+Selection: {source}
+Selected passage:
+"""
+{selection}
+"""</textarea>
         <div class="button-row">
           <button type="button" class="btn-reset" data-target="custom-explain">Reset to Default</button>
         </div>
@@ -228,9 +233,13 @@
 
       <div class="settings-group">
         <label for="custom-example">Example Prompt Template</label>
-        <textarea id="custom-example" rows="6" placeholder="Give a concrete example or analogy that makes this highlighted passage easier to understand.
+        <textarea id="custom-example" rows="8">Give a concrete example or analogy that makes this highlighted passage easier to understand.
 
-{selection}"></textarea>
+Selection: {source}
+Selected passage:
+"""
+{selection}
+"""</textarea>
         <div class="button-row">
           <button type="button" class="btn-reset" data-target="custom-example">Reset to Default</button>
         </div>
@@ -238,9 +247,13 @@
 
       <div class="settings-group">
         <label for="custom-summarize">Summarize Prompt Template</label>
-        <textarea id="custom-summarize" rows="6" placeholder="Summarize this highlighted passage in 2-4 concise bullet points.
+        <textarea id="custom-summarize" rows="8">Summarize this highlighted passage in 2-4 concise bullet points.
 
-{selection}"></textarea>
+Selection: {source}
+Selected passage:
+"""
+{selection}
+"""</textarea>
         <div class="button-row">
           <button type="button" class="btn-reset" data-target="custom-summarize">Reset to Default</button>
         </div>
