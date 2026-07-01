@@ -37,10 +37,10 @@ if (os.platform() === "win32") {
       fs.copyFileSync(`src/${file}`, `${stageDir}/src/${file}`);
     }
 
-    // Copy icons/ (only PNGs)
+    // Copy icons/ (only standard extension icons)
     const iconFiles = fs.readdirSync("icons");
     for (const file of iconFiles) {
-      if (file.endsWith(".png")) {
+      if (file.endsWith(".png") && file.startsWith("icon")) {
         fs.copyFileSync(`icons/${file}`, `${stageDir}/icons/${file}`);
       }
     }
@@ -55,7 +55,7 @@ if (os.platform() === "win32") {
 } else {
   // macOS and Linux
   try {
-    execSync(`zip -q -r ${zipFile} manifest.json support.html src/ icons/*.png`, { stdio: "inherit" });
+    execSync(`zip -q -r ${zipFile} manifest.json support.html src/ icons/icon16.png icons/icon32.png icons/icon48.png icons/icon128.png`, { stdio: "inherit" });
     console.log(`\nSuccessfully packaged extension into: ${zipFile}`);
   } catch (error) {
     console.error("Packaging failed:", error.message);
