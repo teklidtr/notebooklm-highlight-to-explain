@@ -33,12 +33,6 @@ The extension runs only on `https://notebooklm.google.com/*`. It does not send h
 
 ## Development
 
-Generate icons:
-
-```sh
-npm run icons
-```
-
 Run local validation:
 
 ```sh
@@ -47,9 +41,17 @@ npm run check
 
 The validation script checks JavaScript syntax and confirms that `manifest.json` parses correctly.
 
+Build production package:
+
+```sh
+npm run build
+```
+
+The build script compiles a clean ZIP bundle inside the `build/` directory, omitting development files (like tests and raw icon artwork) so it is ready for Chrome Web Store upload.
+
 ## Chrome Web Store
 
-Use [STORE_LISTING.md](STORE_LISTING.md) for the Chrome Web Store dashboard copy. Suggested category: **Education**.
+Use [CHROMEWEBSTORE.md](CHROMEWEBSTORE.md) for the Chrome Web Store dashboard copy and permissions justifications.
 
 ## GitHub Discovery
 
