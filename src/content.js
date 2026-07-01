@@ -326,11 +326,11 @@
     });
 
     const instruction = stored[storageKey] || config.defaultInstruction(selectedSourceTitle);
-    const prompt = [
-      instruction,
-      "",
-      buildSelectionBlock(selectedText, selectedSourceTitle, selectedContextLabel)
-    ].join("\n");
+    const selectionBlock = buildSelectionBlock(selectedText, selectedSourceTitle, selectedContextLabel);
+
+    const prompt = instruction.includes("{selection}")
+      ? instruction.replace(/{selection}/g, selectionBlock)
+      : [instruction, "", selectionBlock].join("\n");
 
     const chatInput = findChatInput();
 
