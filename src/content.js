@@ -332,9 +332,13 @@
       return;
     }
 
-    insertPrompt(chatInput, prompt);
+    const success = await insertPrompt(chatInput, prompt);
     closePopup();
-    showToast(`${config.label} prompt added to chat.`);
+    if (success) {
+      showToast(`${config.label} prompt added to chat.`);
+    } else {
+      showToast("Could not insert prompt directly, copied to clipboard instead.");
+    }
   }
 
   function findChatInput() {
@@ -1017,7 +1021,7 @@
     return node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
   }
 
-  function insertPrompt(element, prompt) {
+  async function insertPrompt(element, prompt) {
     const existing = getEditableValue(element).trim();
     const nextValue = existing ? `${existing}\n\n${prompt}` : prompt;
 
@@ -1026,19 +1030,17 @@
     if (element instanceof HTMLTextAreaElement || element instanceof HTMLInputElement) {
       setNativeInputValue(element, nextValue);
       dispatchEditableEvents(element, prompt);
-      return;
+      return true;
     }
 
     const insertionText = existing ? `\n\n${prompt}` : prompt;
     if (insertContentEditableText(element, insertionText)) {
       dispatchEditableEvents(element, insertionText);
-      return;
-    } else {
-      element.textContent = nextValue;
-      placeCaretAtEnd(element);
+      return true;
     }
 
-    dispatchEditableEvents(element, prompt);
+    await copyToClipboard(prompt);
+    return false;
   }
 
   function insertContentEditableText(element, text) {
