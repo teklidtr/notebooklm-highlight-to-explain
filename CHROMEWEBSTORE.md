@@ -41,7 +41,7 @@ English
 | Asset | Dimensions | Status | Filename |
 |-------|-----------|--------|----------|
 | Store Icon | 128×128 PNG | ✅ Ready | `icons/icon128.png` |
-| Screenshot 1 | 1280×800 or 640×400 | ⬜ Not created | |
+| Screenshot 1 (Annotated) | 1280×800 or 640×400 | ✅ Ready | `icons/screenshot_annotated.jpg` |
 | Screenshot 2 | 1280×800 or 640×400 | ⬜ Not created | |
 | Screenshot 3 | 1280×800 or 640×400 | ⬜ Not created | |
 
