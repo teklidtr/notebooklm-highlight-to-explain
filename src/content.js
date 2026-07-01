@@ -17,47 +17,32 @@
     explain: {
       key: "1",
       label: "Explain",
-      prompt(text, sourceTitle, contextLabel) {
+      defaultInstruction(sourceTitle) {
         const opening = sourceTitle
           ? "Explain this highlighted passage from my NotebookLM source in clear, simple terms."
           : "Explain this selected NotebookLM text in clear, simple terms.";
-
         return [
           opening,
-          "Mention the key idea, any important terms, and why it matters.",
-          "",
-          buildSelectionBlock(text, sourceTitle, contextLabel)
+          "Mention the key idea, any important terms, and why it matters."
         ].join("\n");
       }
     },
     example: {
       key: "2",
       label: "Example",
-      prompt(text, sourceTitle, contextLabel) {
-        const opening = sourceTitle
+      defaultInstruction(sourceTitle) {
+        return sourceTitle
           ? "Give a concrete example or analogy that makes this highlighted passage easier to understand."
           : "Give a concrete example or analogy that makes this selected NotebookLM text easier to understand.";
-
-        return [
-          opening,
-          "",
-          buildSelectionBlock(text, sourceTitle, contextLabel)
-        ].join("\n");
       }
     },
     summarize: {
       key: "3",
       label: "Summarize",
-      prompt(text, sourceTitle, contextLabel) {
-        const opening = sourceTitle
+      defaultInstruction(sourceTitle) {
+        return sourceTitle
           ? "Summarize this highlighted passage from my NotebookLM source in 2-4 concise bullet points."
           : "Summarize this selected NotebookLM text in 2-4 concise bullet points.";
-
-        return [
-          opening,
-          "",
-          buildSelectionBlock(text, sourceTitle, contextLabel)
-        ].join("\n");
       }
     }
   };
@@ -323,7 +308,18 @@
       return;
     }
 
-    const prompt = config.prompt(selectedText, selectedSourceTitle, selectedContextLabel);
+    const storageKey = `custom_${action}`;
+    const stored = await new Promise((resolve) => {
+      chrome.storage.sync.get([storageKey], resolve);
+    });
+
+    const instruction = stored[storageKey] || config.defaultInstruction(selectedSourceTitle);
+    const prompt = [
+      instruction,
+      "",
+      buildSelectionBlock(selectedText, selectedSourceTitle, selectedContextLabel)
+    ].join("\n");
+
     const chatInput = findChatInput();
 
     if (!chatInput) {
