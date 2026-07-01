@@ -103,7 +103,8 @@ teklidtr@gmail.com
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
-| 0.1.0 | 2026-07-01 | Initial version. Local DOM traversal, clipboard fallback, dark mode matching, and scroll dismissal. | Draft |
+| 0.2.0 | 2026-07-01 | Added customizable prompt templates, storage syncing support, options support settings page, and quick-access gear icon in popup header. | Draft |
+| 0.1.0 | 2026-07-01 | Initial version. Local DOM traversal, clipboard fallback, dark mode matching, and scroll dismissal. | Published |
 
 
 ## Review Notes
