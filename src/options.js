@@ -12,7 +12,7 @@
       "Explain this highlighted passage in clear, simple terms.",
       "Mention the key idea, any important terms, and why it matters.",
       "",
-      "Selection: {source}",
+      "Source: {source}",
       "Selected passage:",
       "\"\"\"",
       "{selection}",
@@ -21,7 +21,7 @@
     "custom-example": [
       "Give a concrete example or analogy that makes this highlighted passage easier to understand.",
       "",
-      "Selection: {source}",
+      "Source: {source}",
       "Selected passage:",
       "\"\"\"",
       "{selection}",
@@ -30,7 +30,7 @@
     "custom-summarize": [
       "Summarize this highlighted passage in 2-4 concise bullet points.",
       "",
-      "Selection: {source}",
+      "Source: {source}",
       "Selected passage:",
       "\"\"\"",
       "{selection}",
