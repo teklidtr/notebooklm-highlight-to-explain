@@ -45,6 +45,7 @@ English
 | Screenshot 2 (Prompt) | 1280×800 or 640×400 | ✅ Ready | `icons/screenshot_resulting_prompt.png` |
 | Screenshot 3 | 1280×800 or 640×400 | ⬜ Not created | |
 | Small Promo Tile | 440×280 PNG | ✅ Ready | `icons/small_promo_tile.png` |
+| Marquee Promo Tile | 1400×560 PNG | ✅ Ready | `icons/marquee_promo_tile.png` |
 
 ### Screenshot Notes
 - **Screenshot 1**: Highlighted text in a NotebookLM source with the floating action popup (Explain, Example, Summarize) visible near it.
