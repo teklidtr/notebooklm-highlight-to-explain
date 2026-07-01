@@ -221,6 +221,7 @@
 
   function renderPopup(text, rect, sourceTitle, contextLabel) {
     closePopup();
+    window.addEventListener("scroll", closePopup, { passive: true, once: true });
 
     const root = document.createElement("div");
     root.id = ROOT_ID;
@@ -1153,6 +1154,7 @@
     if (existingRoot) {
       existingRoot.remove();
     }
+    window.removeEventListener("scroll", closePopup);
   }
 
   function isPopupOpen() {
