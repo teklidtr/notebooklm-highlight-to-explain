@@ -86,13 +86,6 @@
     (event) => {
       if (isPopupOpen()) {
         handlePopupKeydown(event);
-        return;
-      }
-
-      if (isOpenHotkey(event)) {
-        event.preventDefault();
-        event.stopPropagation();
-        openActionPopup();
       }
     },
     true
@@ -114,16 +107,6 @@
     true
   );
 
-  function isOpenHotkey(event) {
-    const key = event.key.toLowerCase();
-    const code = event.code;
-    const commandOrControl = event.metaKey || event.ctrlKey;
-    const isLegacyShortcut = commandOrControl && !event.altKey && !event.shiftKey && key === "e";
-    const isPreviousCrossPlatformShortcut = commandOrControl && event.shiftKey && !event.altKey && key === "e";
-    const isDefaultCrossPlatformShortcut = commandOrControl && event.shiftKey && !event.altKey && code === "Period";
-
-    return isLegacyShortcut || isPreviousCrossPlatformShortcut || isDefaultCrossPlatformShortcut;
-  }
 
   function handlePopupKeydown(event) {
     if (event.key === "Escape") {
