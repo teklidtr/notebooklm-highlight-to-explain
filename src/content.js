@@ -506,7 +506,7 @@
   }
 
   function describeSelectionContext(anchor) {
-    const descriptor = collectAncestors(anchor, 12)
+    const descriptor = collectAncestors(anchor, 32)
       .map((element) => {
         return [
           element.getAttribute("data-testid"),
@@ -567,7 +567,7 @@
       return "";
     }
 
-    const ancestors = collectAncestors(anchor, 12);
+    const ancestors = collectAncestors(anchor, 32);
 
     for (const ancestor of ancestors) {
       if (ancestor === document.body) {
@@ -625,7 +625,7 @@
       return "";
     }
 
-    const ancestors = collectAncestors(anchor, 8);
+    const ancestors = collectAncestors(anchor, 24);
 
     for (const ancestor of ancestors) {
       const attributeTitle = extractSourceTitleFromAttributes(ancestor, selectedText);
@@ -927,12 +927,16 @@
   }
 
   function findSourceContentContainer(anchor) {
-    const ancestors = collectAncestors(anchor, 12);
-    if (ancestors.some((element) => isRejectedSourceSelectionElement(element))) {
-      return null;
+    const ancestors = collectAncestors(anchor, 32);
+    for (const element of ancestors) {
+      if (isRejectedSourceSelectionElement(element)) {
+        return null;
+      }
+      if (isLikelySourceContentContainer(element)) {
+        return element;
+      }
     }
-
-    return ancestors.find((element) => isLikelySourceContentContainer(element)) || null;
+    return null;
   }
 
   function hasRejectedSelectionArea(anchor, sourceContainer) {
