@@ -1,0 +1,57 @@
+{
+  "manifest_version": 3,
+  "name": "NotebookLM Highlight to Explain",
+  "short_name": "Highlight to Explain",
+  "version": "0.1.0",
+  "author": "teklidtr@gmail.com",
+  "description": "Explain, summarize, or create examples from highlighted NotebookLM text and insert the prompt into chat.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "https://notebooklm.google.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "options_page": "support.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://notebooklm.google.com/*"
+      ],
+      "js": [
+        "src/content.js"
+      ],
+      "css": [
+        "src/content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "open-highlight-to-explain": {
+      "suggested_key": {
+        "default": "Ctrl+E",
+        "mac": "Command+E"
+      },
+      "description": "Open NotebookLM explain actions"
+    }
+  },
+  "action": {
+    "default_title": "NotebookLM Highlight to Explain",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }
+}

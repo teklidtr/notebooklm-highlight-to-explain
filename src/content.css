@@ -1,0 +1,166 @@
+#nlmhh-root,
+#nlmhh-toast {
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  letter-spacing: 0;
+}
+
+#nlmhh-root {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  width: min(360px, calc(100vw - 24px));
+  z-index: 2147483647;
+  pointer-events: none;
+}
+
+#nlmhh-root .nlmhh-card {
+  width: 100%;
+  overflow: hidden;
+  color: #202124;
+  background: #ffffff;
+  border: 1px solid rgba(60, 64, 67, 0.18);
+  border-radius: 8px;
+  box-shadow: 0 18px 48px rgba(32, 33, 36, 0.22), 0 2px 8px rgba(32, 33, 36, 0.12);
+  pointer-events: auto;
+}
+
+#nlmhh-root .nlmhh-card::before {
+  display: block;
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, #4285f4, #a142f4, #ea4335, #fbbc04, #34a853);
+}
+
+#nlmhh-root .nlmhh-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 12px 8px;
+}
+
+#nlmhh-root .nlmhh-title {
+  min-width: 0;
+  overflow: hidden;
+  color: #3c4043;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#nlmhh-root .nlmhh-close {
+  display: inline-grid;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  color: #5f6368;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  place-items: center;
+}
+
+#nlmhh-root .nlmhh-close:hover {
+  background: #f1f3f4;
+}
+
+#nlmhh-root .nlmhh-snippet {
+  display: -webkit-box;
+  max-height: 62px;
+  padding: 4px 12px 0;
+  overflow: hidden;
+  color: #5f6368;
+  font-size: 12px;
+  line-height: 18px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+#nlmhh-root .nlmhh-source {
+  min-width: 0;
+  padding: 0 12px;
+  overflow: hidden;
+  color: #1a73e8;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#nlmhh-root .nlmhh-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 12px;
+}
+
+#nlmhh-root .nlmhh-action {
+  display: grid;
+  grid-template-rows: 18px 18px;
+  align-items: center;
+  justify-items: center;
+  min-width: 0;
+  min-height: 56px;
+  padding: 8px 6px;
+  color: #202124;
+  cursor: pointer;
+  background: #f8fafd;
+  border: 1px solid #dfe3eb;
+  border-radius: 8px;
+}
+
+#nlmhh-root .nlmhh-action:hover,
+#nlmhh-root .nlmhh-action:focus-visible {
+  background: #eef4ff;
+  border-color: #b8cdfa;
+  outline: none;
+}
+
+#nlmhh-root .nlmhh-key {
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  color: #1a73e8;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+  background: #e8f0fe;
+  border-radius: 50%;
+  place-items: center;
+}
+
+#nlmhh-root .nlmhh-label {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#nlmhh-toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(360px, calc(100vw - 32px));
+  padding: 12px 14px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 20px;
+  background: #202124;
+  border: 2px solid #fbbc04;
+  border-radius: 8px;
+  box-shadow: 0 16px 40px rgba(32, 33, 36, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.5);
+  text-align: center;
+  transform: translateX(-50%);
+  z-index: 2147483647;
+}

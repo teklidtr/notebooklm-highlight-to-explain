@@ -1,0 +1,23 @@
+{
+  "name": "notebooklm-highlight-to-explain",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Chrome extension to explain, summarize, and create examples from highlighted NotebookLM text.",
+  "type": "module",
+  "scripts": {
+    "check": "node --check src/background.js && node --check src/content.js && node --check scripts/generate-icons.mjs && node -e \"JSON.parse(require('fs').readFileSync('manifest.json', 'utf8')); console.log('manifest ok')\"",
+    "icons": "node scripts/generate-icons.mjs"
+  },
+  "keywords": [
+    "notebooklm",
+    "chrome-extension",
+    "highlight-to-explain",
+    "chat-answer-explainer",
+    "prompt-helper",
+    "study-tools",
+    "education",
+    "summarize",
+    "explain"
+  ],
+  "license": "MIT"
+}

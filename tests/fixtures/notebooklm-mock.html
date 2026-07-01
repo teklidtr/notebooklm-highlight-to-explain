@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NotebookLM Mock</title>
+    <link rel="stylesheet" href="../../src/content.css">
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        color: #202124;
+        background: #f8fafd;
+      }
+
+      .test-controls {
+        position: fixed;
+        right: 12px;
+        top: 12px;
+        z-index: 2;
+        display: flex;
+        gap: 8px;
+      }
+
+      .app {
+        display: grid;
+        grid-template-columns: 260px minmax(320px, 1fr) 220px 220px 360px;
+        gap: 16px;
+        min-height: 100vh;
+        padding: 16px;
+        box-sizing: border-box;
+      }
+
+      .source-list,
+      .source-viewer,
+      .notes-panel,
+      .studio-panel,
+      .chat-panel {
+        padding: 16px;
+        background: #ffffff;
+        border: 1px solid #dfe3eb;
+        border-radius: 8px;
+      }
+
+      .source-title {
+        font-weight: 700;
+      }
+
+      .source-viewer {
+        min-height: 520px;
+      }
+
+      #source-text,
+      #note-text,
+      #studio-text,
+      #chat-answer {
+        margin-top: 24px;
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      .notes-panel,
+      .studio-panel,
+      .chat-panel {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #search-box,
+      #rename-box {
+        width: 100%;
+        box-sizing: border-box;
+        margin: 8px 0;
+        padding: 8px;
+      }
+
+      #chat-box {
+        min-height: 160px;
+        margin-top: auto;
+        padding: 12px;
+        border: 1px solid #c9d3e5;
+        border-radius: 8px;
+        outline: none;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="test-controls" aria-label="Test controls">
+      <button id="select-source" type="button">Select source text</button>
+      <button id="select-note" type="button">Select note text</button>
+      <button id="select-studio" type="button">Select studio text</button>
+      <button id="select-chat-answer" type="button">Select chat answer</button>
+    </div>
+    <div class="app">
+      <aside class="source-list" aria-label="Sources">
+        <input id="search-box" aria-label="Search sources" type="search">
+        <input id="rename-box" aria-label="Rename source" type="text">
+        <div class="source-title ng-star-inserted" title="Unit 06 Plant Structure and Function">
+          Unit 06 Plant Structure and Function
+        </div>
+      </aside>
+
+      <main class="source-viewer panel-content" aria-label="Source viewer" data-testid="source-viewer">
+        <h1>Source guide</h1>
+        <p id="source-text">
+          Plant structure is organized around roots, stems, and leaves. Each organ supports transport,
+          photosynthesis, protection, and growth in coordinated ways.
+        </p>
+      </main>
+
+      <section class="notes-panel" aria-label="Notes">
+        <p id="note-text">
+          This text lives in notes and should open without source metadata.
+        </p>
+      </section>
+
+      <section class="studio-panel" aria-label="Studio">
+        <p id="studio-text">
+          This text lives in Studio and should open without source metadata.
+        </p>
+      </section>
+
+      <section class="chat-panel" aria-label="Chat panel">
+        <p id="chat-answer">
+          This is a previous NotebookLM chat answer that a user may want explained again.
+        </p>
+        <div
+          id="chat-box"
+          role="textbox"
+          contenteditable="true"
+          aria-label="Ask anything about your sources"
+        ></div>
+      </section>
+    </div>
+    <script>
+      window.chrome = {
+        runtime: {
+          onMessage: {
+            addListener() {}
+          }
+        }
+      };
+      document.body.dataset.chatInputEvents = "0";
+      document.getElementById("chat-box").addEventListener("input", () => {
+        document.body.dataset.chatInputEvents = String(Number(document.body.dataset.chatInputEvents || "0") + 1);
+      });
+      function selectTextById(id) {
+        const element = document.getElementById(id);
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.dispatchEvent(new Event("selectionchange", { bubbles: true }));
+      }
+      document.getElementById("select-source").addEventListener("click", () => selectTextById("source-text"));
+      document.getElementById("select-note").addEventListener("click", () => selectTextById("note-text"));
+      document.getElementById("select-studio").addEventListener("click", () => selectTextById("studio-text"));
+      document.getElementById("select-chat-answer").addEventListener("click", () => selectTextById("chat-answer"));
+    </script>
+    <script src="../../src/content.js"></script>
+  </body>
+</html>
