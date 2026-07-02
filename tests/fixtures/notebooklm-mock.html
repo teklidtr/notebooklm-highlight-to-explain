@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NotebookLM Mock</title>
-    <link rel="stylesheet" href="../../src/content.css">
     <style>
       body {
         margin: 0;
@@ -137,7 +136,22 @@
       window.chrome = {
         runtime: {
           onMessage: {
-            addListener() {}
+            addListener(listener) {
+              window.chromeOnMessageListener = listener;
+            }
+          },
+          sendMessage(message, callback) {
+            if (callback) callback();
+          }
+        },
+        storage: {
+          sync: {
+            get(keys, callback) {
+              if (callback) callback({});
+            },
+            set(data, callback) {
+              if (callback) callback();
+            }
           }
         }
       };
@@ -159,6 +173,19 @@
       document.getElementById("select-studio").addEventListener("click", () => selectTextById("studio-text"));
       document.getElementById("select-chat-answer").addEventListener("click", () => selectTextById("chat-answer"));
     </script>
-    <script src="../../src/content.js"></script>
+    <script>
+      (function() {
+        const prefix = window.location.protocol.startsWith('http') ? '' : '../..';
+        
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = prefix + '/src/content.css';
+        document.head.appendChild(link);
+        
+        const script = document.createElement('script');
+        script.src = prefix + '/src/content.js';
+        document.body.appendChild(script);
+      })();
+    </script>
   </body>
 </html>

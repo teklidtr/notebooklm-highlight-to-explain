@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "check": "node --check src/background.js && node --check src/content.js && node --check src/options.js && node -e \"JSON.parse(require('fs').readFileSync('manifest.json', 'utf8')); console.log('manifest ok')\"",
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "test": "playwright test"
   },
   "keywords": [
     "notebooklm",
@@ -19,5 +20,8 @@
     "summarize",
     "explain"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
+  }
 }
