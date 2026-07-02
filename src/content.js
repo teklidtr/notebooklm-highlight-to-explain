@@ -979,7 +979,7 @@
       .join(" ")
       .toLowerCase();
 
-    return /\b(chat|conversation|note|notes|studio|guide|search|filter|input|textbox|source list|source-list|sources-list)\b/.test(
+    return /\b(chat|conversation|note|notes|studio|guide|search|filter|input|textbox)\b/.test(
       descriptor
     );
   }

@@ -127,3 +127,52 @@ test('options page template customization and storage syncing', async () => {
 
   await optionsPage.close();
 });
+
+test('source extraction when selecting text inside an unordered list item', async () => {
+  const page = await context.newPage();
+
+  // Route notebooklm.google.com and relative resources to local files
+  const mockPath = path.join(__dirname, 'fixtures/notebooklm-mock.html');
+  const contentJsPath = path.join(__dirname, '../src/content.js');
+  const contentCssPath = path.join(__dirname, '../src/content.css');
+
+  await page.route('https://notebooklm.google.com/**', async (route) => {
+    const url = route.request().url();
+    if (url === 'https://notebooklm.google.com/' || url === 'https://notebooklm.google.com') {
+      await route.fulfill({ path: mockPath });
+    } else if (url.includes('src/content.js')) {
+      await route.fulfill({ path: contentJsPath });
+    } else if (url.includes('src/content.css')) {
+      await route.fulfill({ path: contentCssPath });
+    } else {
+      await route.continue();
+    }
+  });
+
+  await page.goto('https://notebooklm.google.com/');
+
+  // Click the mock page's control to select list item text inside the source panel
+  await page.click('button#select-list-item');
+
+  // Trigger content script popup rendering via mock message listener
+  await page.evaluate(() => {
+    if (window.chromeOnMessageListener) {
+      window.chromeOnMessageListener({ type: 'NLMHH_OPEN_POPUP' }, {}, () => {});
+    }
+  });
+
+  // Verify the popup appears
+  const popup = page.locator('#nlmhh-root');
+  await expect(popup).toBeVisible();
+
+  // Click "Explain" action
+  await popup.locator('button[data-action="explain"]').click();
+
+  // Verify that the prompt compiles correctly and successfully extracts the source name
+  const chatBox = page.locator('#chat-box');
+  await expect(chatBox).toContainText('Explain this highlighted passage in clear, simple terms');
+  await expect(chatBox).toContainText('Source: Unit 06 Plant Structure and Function');
+  await expect(chatBox).toContainText('Photosynthesis occurs primarily in leaves');
+
+  await page.close();
+});
