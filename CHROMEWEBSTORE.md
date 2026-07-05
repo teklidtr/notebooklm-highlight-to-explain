@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — NotebookLM Highlight to Explain
 
-> Last Updated: 2026-07-01
+> Last Updated: 2026-07-05
 
 ## Store Listing
 
@@ -103,7 +103,7 @@ teklidtr@gmail.com
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
-| 0.2.0 | 2026-07-01 | Added customizable prompt templates, storage syncing support, options support settings page, and quick-access gear icon in popup header. | Draft |
+| 0.2.0 | 2026-07-05 | Added customizable prompt templates, storage syncing support, options settings page, quick-access settings button, Turkish/Spanish/German/etc. UI localization support, and text-selection list extraction fixes. | Tagged |
 | 0.1.0 | 2026-07-01 | Initial version. Local DOM traversal, clipboard fallback, dark mode matching, and scroll dismissal. | Published |
 
 
