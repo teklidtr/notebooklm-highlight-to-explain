@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NotebookLM Mock</title>
-    <link rel="stylesheet" href="../../src/content.css">
     <style>
       body {
         margin: 0;
@@ -91,6 +90,7 @@
       <button id="select-note" type="button">Select note text</button>
       <button id="select-studio" type="button">Select studio text</button>
       <button id="select-chat-answer" type="button">Select chat answer</button>
+      <button id="select-list-item" type="button">Select list item text</button>
     </div>
     <div class="app">
       <aside class="source-list" aria-label="Sources">
@@ -107,6 +107,10 @@
           Plant structure is organized around roots, stems, and leaves. Each organ supports transport,
           photosynthesis, protection, and growth in coordinated ways.
         </p>
+        <ul id="source-list-items">
+          <li id="list-item-1">Photosynthesis occurs primarily in leaves.</li>
+          <li id="list-item-2">Roots absorb water and minerals from the soil.</li>
+        </ul>
       </main>
 
       <section class="notes-panel" aria-label="Notes">
@@ -137,7 +141,22 @@
       window.chrome = {
         runtime: {
           onMessage: {
-            addListener() {}
+            addListener(listener) {
+              window.chromeOnMessageListener = listener;
+            }
+          },
+          sendMessage(message, callback) {
+            if (callback) callback();
+          }
+        },
+        storage: {
+          sync: {
+            get(keys, callback) {
+              if (callback) callback({});
+            },
+            set(data, callback) {
+              if (callback) callback();
+            }
           }
         }
       };
@@ -158,7 +177,21 @@
       document.getElementById("select-note").addEventListener("click", () => selectTextById("note-text"));
       document.getElementById("select-studio").addEventListener("click", () => selectTextById("studio-text"));
       document.getElementById("select-chat-answer").addEventListener("click", () => selectTextById("chat-answer"));
+      document.getElementById("select-list-item").addEventListener("click", () => selectTextById("list-item-1"));
     </script>
-    <script src="../../src/content.js"></script>
+    <script>
+      (function() {
+        const prefix = window.location.protocol.startsWith('http') ? '' : '../..';
+        
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = prefix + '/src/content.css';
+        document.head.appendChild(link);
+        
+        const script = document.createElement('script');
+        script.src = prefix + '/src/content.js';
+        document.body.appendChild(script);
+      })();
+    </script>
   </body>
 </html>

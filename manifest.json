@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "NotebookLM Highlight to Explain",
   "short_name": "Highlight to Explain",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "teklidtr@gmail.com",
   "description": "Explain, summarize, or create examples from highlighted NotebookLM text and insert the prompt into chat.",
   "icons": {
@@ -13,7 +13,8 @@
   },
   "permissions": [
     "activeTab",
-    "clipboardWrite"
+    "clipboardWrite",
+    "storage"
   ],
   "background": {
     "service_worker": "src/background.js"

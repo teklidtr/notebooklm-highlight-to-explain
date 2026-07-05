@@ -58,6 +58,7 @@ English
 |------------|------|---------------|
 | `activeTab` | permissions | Used to retrieve the highlighted/selected text on the current NotebookLM tab and interact with the page's DOM (focusing and inserting the formatted prompt into the chat box). |
 | `clipboardWrite` | permissions | Used as a fallback: if the extension fails to programmatically inject the prompt into the chat container (e.g. due to framework lockouts), it copies the prompt to the clipboard and shows a toast so the user can manually paste it. |
+| `storage` | permissions | Used to persist and sync user-customized prompt templates for "Explain", "Example", and "Summarize" buttons across all browser instances. |
 
 
 ## Privacy & Data Use
@@ -102,7 +103,8 @@ teklidtr@gmail.com
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
-| 0.1.0 | 2026-07-01 | Initial version. Local DOM traversal, clipboard fallback, dark mode matching, and scroll dismissal. | Draft |
+| 0.2.0 | 2026-07-01 | Added customizable prompt templates, storage syncing support, options support settings page, and quick-access gear icon in popup header. | Draft |
+| 0.1.0 | 2026-07-01 | Initial version. Local DOM traversal, clipboard fallback, dark mode matching, and scroll dismissal. | Published |
 
 
 ## Review Notes

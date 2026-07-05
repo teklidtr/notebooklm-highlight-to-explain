@@ -17,48 +17,42 @@
     explain: {
       key: "1",
       label: "Explain",
-      prompt(text, sourceTitle, contextLabel) {
-        const opening = sourceTitle
-          ? "Explain this highlighted passage from my NotebookLM source in clear, simple terms."
-          : "Explain this selected NotebookLM text in clear, simple terms.";
-
-        return [
-          opening,
-          "Mention the key idea, any important terms, and why it matters.",
-          "",
-          buildSelectionBlock(text, sourceTitle, contextLabel)
-        ].join("\n");
-      }
+      defaultTemplate: [
+        "Explain this highlighted passage in clear, simple terms.",
+        "Mention the key idea, any important terms, and why it matters.",
+        "",
+        "Source: {source}",
+        "Selected passage:",
+        "\"\"\"",
+        "{selection}",
+        "\"\"\""
+      ].join("\n")
     },
     example: {
       key: "2",
       label: "Example",
-      prompt(text, sourceTitle, contextLabel) {
-        const opening = sourceTitle
-          ? "Give a concrete example or analogy that makes this highlighted passage easier to understand."
-          : "Give a concrete example or analogy that makes this selected NotebookLM text easier to understand.";
-
-        return [
-          opening,
-          "",
-          buildSelectionBlock(text, sourceTitle, contextLabel)
-        ].join("\n");
-      }
+      defaultTemplate: [
+        "Give a concrete example or analogy that makes this highlighted passage easier to understand.",
+        "",
+        "Source: {source}",
+        "Selected passage:",
+        "\"\"\"",
+        "{selection}",
+        "\"\"\""
+      ].join("\n")
     },
     summarize: {
       key: "3",
       label: "Summarize",
-      prompt(text, sourceTitle, contextLabel) {
-        const opening = sourceTitle
-          ? "Summarize this highlighted passage from my NotebookLM source in 2-4 concise bullet points."
-          : "Summarize this selected NotebookLM text in 2-4 concise bullet points.";
-
-        return [
-          opening,
-          "",
-          buildSelectionBlock(text, sourceTitle, contextLabel)
-        ].join("\n");
-      }
+      defaultTemplate: [
+        "Summarize this highlighted passage in 2-4 concise bullet points.",
+        "",
+        "Source: {source}",
+        "Selected passage:",
+        "\"\"\"",
+        "{selection}",
+        "\"\"\""
+      ].join("\n")
     }
   };
 
@@ -245,12 +239,24 @@
     closeButton.textContent = "x";
     closeButton.addEventListener("click", closePopup);
 
+    const settingsButton = document.createElement("button");
+    settingsButton.className = "nlmhh-settings-btn";
+    settingsButton.type = "button";
+    settingsButton.setAttribute("aria-label", "Configure Custom Prompts");
+    settingsButton.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>`;
+    settingsButton.addEventListener("click", () => {
+      chrome.runtime.sendMessage({ type: "OPEN_OPTIONS" });
+    });
+
     const shortcutHint = document.createElement("span");
     shortcutHint.className = "nlmhh-shortcut-hint";
     const isMac = /Mac|iPod|iPhone|iPad/i.test(navigator.userAgent || navigator.platform);
     shortcutHint.textContent = isMac ? "⌘E" : "Ctrl+E";
 
-    header.append(title, shortcutHint, closeButton);
+    header.append(title, settingsButton, shortcutHint, closeButton);
 
     const snippet = document.createElement("div");
     snippet.className = "nlmhh-snippet";
@@ -323,7 +329,22 @@
       return;
     }
 
-    const prompt = config.prompt(selectedText, selectedSourceTitle, selectedContextLabel);
+    const storageKey = `custom_${action}`;
+    const stored = await new Promise((resolve) => {
+      chrome.storage.sync.get([storageKey], resolve);
+    });
+
+    const template = stored[storageKey] !== undefined && stored[storageKey] !== ""
+      ? stored[storageKey]
+      : config.defaultTemplate;
+
+    const sourceVal = selectedSourceTitle || selectedContextLabel || "NotebookLM page";
+    const selectionTextVal = selectedText || "";
+
+    const prompt = template
+      .replace(/{source}/g, sourceVal)
+      .replace(/{selection}/g, selectionTextVal);
+
     const chatInput = findChatInput();
 
     if (!chatInput) {
@@ -401,8 +422,18 @@
     if (element.isContentEditable) score += 18;
     if (element.tagName === "INPUT") score += 8;
 
-    if (/\b(ask|chat|message|question|prompt|anything)\b/.test(descriptor)) score += 55;
-    if (/\b(search|filter|title|name|rename|source list)\b/.test(descriptor)) score -= 45;
+    // Boost score if the element lives within a chat or conversation panel
+    const inChatPanel = element.closest(".chat-panel, [class*='chat' i], [data-testid*='chat' i], [aria-label*='chat' i], [class*='conversation' i]");
+    if (inChatPanel) {
+      score += 45;
+    }
+
+    if (/\b(ask|chat|message|question|prompt|anything|sorun|sor|sohbet|pregunta|preguntar|posez|poser|fragen|frage|nachricht|pergunte|perguntar|domanda|messaggio)\b/i.test(descriptor)) {
+      score += 55;
+    }
+    if (/\b(search|filter|title|name|rename|source list)\b/.test(descriptor)) {
+      score -= 45;
+    }
 
     if (rect.top > window.innerHeight * 0.45) score += 24;
     if (rect.left > window.innerWidth * 0.3) score += 10;
@@ -415,7 +446,8 @@
   function isAcceptableChatCandidate(element, score) {
     const rect = element.getBoundingClientRect();
     const descriptor = editableDescriptor(element);
-    const hasChatSignal = /\b(ask|chat|message|question|prompt|anything)\b/.test(descriptor);
+    const hasChatSignal = /\b(ask|chat|message|question|prompt|anything|sorun|sor|sohbet|pregunta|preguntar|posez|poser|fragen|frage|nachricht|pergunte|perguntar|domanda|messaggio)\b/i.test(descriptor) ||
+      !!element.closest(".chat-panel, [class*='chat' i], [data-testid*='chat' i], [aria-label*='chat' i], [class*='conversation' i]");
     const hasBadSignal = /\b(search|filter|title|name|rename|source list)\b/.test(descriptor);
     const isTextEditor =
       element instanceof HTMLTextAreaElement ||
@@ -447,19 +479,7 @@
       .toLowerCase();
   }
 
-  function buildSelectionBlock(text, sourceTitle, contextLabel) {
-    const lines = [];
 
-    if (sourceTitle) {
-      lines.push(`Source: ${sourceTitle}`, "");
-    } else if (contextLabel) {
-      lines.push(`Selection: ${contextLabel}`, "");
-    }
-
-    lines.push("Selected passage:", "\"\"\"", text, "\"\"\"");
-
-    return lines.join("\n");
-  }
 
   function findSourceTitle(range, selectedText) {
     const anchor = elementFromNode(range.startContainer);
@@ -970,7 +990,7 @@
       .join(" ")
       .toLowerCase();
 
-    return /\b(chat|conversation|note|notes|studio|guide|search|filter|input|textbox|source list|source-list|sources-list)\b/.test(
+    return /\b(chat|conversation|note|notes|studio|guide|search|filter|input|textbox)\b/.test(
       descriptor
     );
   }

@@ -24,3 +24,9 @@ chrome.commands.onCommand.addListener((command) => {
 chrome.action.onClicked.addListener((tab) => {
   sendOpenMessage(tab);
 });
+
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === "OPEN_OPTIONS") {
+    chrome.runtime.openOptionsPage();
+  }
+});
