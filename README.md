@@ -51,7 +51,7 @@ The build script compiles a clean ZIP bundle inside the `build/` directory, omit
 
 ## Chrome Web Store
 
-You can install this extension directly from the **[Chrome Web Store](https://chromewebstore.google.com/detail/notebooklm-highlight-to/jkkofhklpghnfeclpajlchpohmbkigcc)** (or load it locally as unpacked code using the instructions below).
+You can install this extension directly from the **[Chrome Web Store](https://chromewebstore.google.com/detail/notebooklm-highlight-to-e/icgojnknmdbdldajaoecliokcmfddcon)** (or load it locally as unpacked code using the instructions below).
 
 ## Contact
 
