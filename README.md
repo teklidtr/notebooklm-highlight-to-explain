@@ -51,29 +51,7 @@ The build script compiles a clean ZIP bundle inside the `build/` directory, omit
 
 ## Chrome Web Store
 
-Use [CHROMEWEBSTORE.md](CHROMEWEBSTORE.md) for the Chrome Web Store dashboard copy and permissions justifications.
-
-## GitHub Discovery
-
-For better GitHub and Google search visibility, use this repository name if it is available:
-
-```text
-notebooklm-highlight-to-explain
-```
-
-Suggested GitHub repository description:
-
-```text
-Chrome extension to explain, summarize, and create examples from highlighted NotebookLM text.
-```
-
-Suggested GitHub topics:
-
-```text
-notebooklm, notebooklm-extension, chrome-extension, highlight-to-explain, prompt-helper, study-tools, education, summarize, explain
-```
-
-Google indexing is not instant or guaranteed, but a public GitHub repository with a clear README, useful description, and relevant topics gives search engines much better material to understand.
+You can install this extension directly from the **[Chrome Web Store](https://chromewebstore.google.com/detail/notebooklm-highlight-to/jkkofhklpghnfeclpajlchpohmbkigcc)** (or load it locally as unpacked code using the instructions below).
 
 ## Contact
 
