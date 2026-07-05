@@ -422,8 +422,18 @@
     if (element.isContentEditable) score += 18;
     if (element.tagName === "INPUT") score += 8;
 
-    if (/\b(ask|chat|message|question|prompt|anything)\b/.test(descriptor)) score += 55;
-    if (/\b(search|filter|title|name|rename|source list)\b/.test(descriptor)) score -= 45;
+    // Boost score if the element lives within a chat or conversation panel
+    const inChatPanel = element.closest(".chat-panel, [class*='chat' i], [data-testid*='chat' i], [aria-label*='chat' i], [class*='conversation' i]");
+    if (inChatPanel) {
+      score += 45;
+    }
+
+    if (/\b(ask|chat|message|question|prompt|anything|sorun|sor|sohbet|pregunta|preguntar|posez|poser|fragen|frage|nachricht|pergunte|perguntar|domanda|messaggio)\b/i.test(descriptor)) {
+      score += 55;
+    }
+    if (/\b(search|filter|title|name|rename|source list)\b/.test(descriptor)) {
+      score -= 45;
+    }
 
     if (rect.top > window.innerHeight * 0.45) score += 24;
     if (rect.left > window.innerWidth * 0.3) score += 10;
@@ -436,7 +446,8 @@
   function isAcceptableChatCandidate(element, score) {
     const rect = element.getBoundingClientRect();
     const descriptor = editableDescriptor(element);
-    const hasChatSignal = /\b(ask|chat|message|question|prompt|anything)\b/.test(descriptor);
+    const hasChatSignal = /\b(ask|chat|message|question|prompt|anything|sorun|sor|sohbet|pregunta|preguntar|posez|poser|fragen|frage|nachricht|pergunte|perguntar|domanda|messaggio)\b/i.test(descriptor) ||
+      !!element.closest(".chat-panel, [class*='chat' i], [data-testid*='chat' i], [aria-label*='chat' i], [class*='conversation' i]");
     const hasBadSignal = /\b(search|filter|title|name|rename|source list)\b/.test(descriptor);
     const isTextEditor =
       element instanceof HTMLTextAreaElement ||
