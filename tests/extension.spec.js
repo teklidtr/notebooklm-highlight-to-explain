@@ -36,14 +36,14 @@ test.afterAll(async () => {
 test('content script popup rendering and action injection', async () => {
   const page = await context.newPage();
 
-  // Route notebooklm.google.com and relative resources to local files
+  // Route notebook.google.com and relative resources to local files
   const mockPath = path.join(__dirname, 'fixtures/notebooklm-mock.html');
   const contentJsPath = path.join(__dirname, '../src/content.js');
   const contentCssPath = path.join(__dirname, '../src/content.css');
 
-  await page.route('https://notebooklm.google.com/**', async (route) => {
+  await page.route('https://notebook.google.com/**', async (route) => {
     const url = route.request().url();
-    if (url === 'https://notebooklm.google.com/' || url === 'https://notebooklm.google.com') {
+    if (url === 'https://notebook.google.com/' || url === 'https://notebook.google.com') {
       await route.fulfill({ path: mockPath });
     } else if (url.includes('src/content.js')) {
       await route.fulfill({ path: contentJsPath });
@@ -57,7 +57,7 @@ test('content script popup rendering and action injection', async () => {
   page.on('console', msg => console.log('PAGE CONSOLE:', msg.text()));
   page.on('pageerror', err => console.log('PAGE ERROR:', err.message));
 
-  await page.goto('https://notebooklm.google.com/');
+  await page.goto('https://notebook.google.com/');
 
   // Click the mock page's control to select source text
   await page.click('button#select-source');
@@ -131,14 +131,14 @@ test('options page template customization and storage syncing', async () => {
 test('source extraction when selecting text inside an unordered list item', async () => {
   const page = await context.newPage();
 
-  // Route notebooklm.google.com and relative resources to local files
+  // Route notebook.google.com and relative resources to local files
   const mockPath = path.join(__dirname, 'fixtures/notebooklm-mock.html');
   const contentJsPath = path.join(__dirname, '../src/content.js');
   const contentCssPath = path.join(__dirname, '../src/content.css');
 
-  await page.route('https://notebooklm.google.com/**', async (route) => {
+  await page.route('https://notebook.google.com/**', async (route) => {
     const url = route.request().url();
-    if (url === 'https://notebooklm.google.com/' || url === 'https://notebooklm.google.com') {
+    if (url === 'https://notebook.google.com/' || url === 'https://notebook.google.com') {
       await route.fulfill({ path: mockPath });
     } else if (url.includes('src/content.js')) {
       await route.fulfill({ path: contentJsPath });
@@ -149,7 +149,7 @@ test('source extraction when selecting text inside an unordered list item', asyn
     }
   });
 
-  await page.goto('https://notebooklm.google.com/');
+  await page.goto('https://notebook.google.com/');
 
   // Click the mock page's control to select list item text inside the source panel
   await page.click('button#select-list-item');
@@ -184,9 +184,9 @@ test('chat box detection in non-English UI (Turkish localization)', async () => 
   const contentJsPath = path.join(__dirname, '../src/content.js');
   const contentCssPath = path.join(__dirname, '../src/content.css');
 
-  await page.route('https://notebooklm.google.com/**', async (route) => {
+  await page.route('https://notebook.google.com/**', async (route) => {
     const url = route.request().url();
-    if (url === 'https://notebooklm.google.com/' || url === 'https://notebooklm.google.com') {
+    if (url === 'https://notebook.google.com/' || url === 'https://notebook.google.com') {
       await route.fulfill({ path: mockPath });
     } else if (url.includes('src/content.js')) {
       await route.fulfill({ path: contentJsPath });
@@ -197,7 +197,7 @@ test('chat box detection in non-English UI (Turkish localization)', async () => 
     }
   });
 
-  await page.goto('https://notebooklm.google.com/');
+  await page.goto('https://notebook.google.com/');
 
   // Change the chat box's aria-label and placeholder to Turkish to simulate localization
   await page.evaluate(() => {
