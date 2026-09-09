@@ -1,6 +1,6 @@
 {
   "name": "notebooklm-highlight-to-explain",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Chrome extension to explain, summarize, and create examples from highlighted NotebookLM text.",
   "type": "module",
