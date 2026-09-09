@@ -8,7 +8,7 @@ Thanks for helping improve NotebookLM Highlight to Explain.
 2. Open `chrome://extensions`.
 3. Enable Developer mode.
 4. Click **Load unpacked** and select the repository folder.
-5. Open or refresh `https://notebooklm.google.com`.
+5. Open or refresh `https://notebook.google.com`.
 
 ## Development Checks
 
