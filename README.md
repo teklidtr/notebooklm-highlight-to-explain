@@ -23,13 +23,13 @@ This is an independent tool and is not affiliated with Google or NotebookLM.
 3. Enable Developer mode.
 4. Click **Load unpacked**.
 5. Select this project folder.
-6. Open or refresh `https://notebooklm.google.com`.
+6. Open or refresh `https://notebook.google.com`.
 
 If Chrome does not assign the shortcut because it conflicts with another browser or extension shortcut, open `chrome://extensions/shortcuts` and set **NotebookLM Highlight to Explain** to the shortcut you want.
 
 ## Privacy
 
-The extension runs only on `https://notebooklm.google.com/*`. It does not send highlighted text to any external server, does not use analytics, and does not store your NotebookLM content. See [PRIVACY.md](PRIVACY.md) for details.
+The extension runs only on `https://notebook.google.com/*` and the legacy `https://notebooklm.google.com/*` origin. It does not send highlighted text to any external server, does not use analytics, and does not store your NotebookLM content. See [PRIVACY.md](PRIVACY.md) for details.
 
 ## Development
 

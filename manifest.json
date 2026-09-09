@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "NotebookLM Highlight to Explain",
   "short_name": "Highlight to Explain",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "teklidtr@gmail.com",
   "description": "Explain, summarize, or create examples from highlighted NotebookLM text and insert the prompt into chat.",
   "icons": {
@@ -23,6 +23,7 @@
   "content_scripts": [
     {
       "matches": [
+        "https://notebook.google.com/*",
         "https://notebooklm.google.com/*"
       ],
       "js": [

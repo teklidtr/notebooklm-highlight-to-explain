@@ -25,8 +25,11 @@ The extension does not use analytics, tracking pixels, cookies, remote logging, 
 The extension is scoped to:
 
 ```text
+https://notebook.google.com/*
 https://notebooklm.google.com/*
 ```
+
+The second origin is retained for compatibility with the legacy NotebookLM URL.
 
 ## Contact
 
